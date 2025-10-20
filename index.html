@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chúc mừng 20/10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: url('./assets/bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: "Mali", cursive;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 🌸 Center message */
+    .center-message {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,240,245,0.9));
+      padding: 30px 40px;
+      border-radius: 25px;
+      font-size: 1.4rem;
+      color: #c2185b;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(216, 27, 96, 0.3);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.3);
+      animation: pulse 3s ease-in-out infinite;
+      z-index: 1;
+      width: 90%;
+      max-width: 450px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    .center-message strong {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      background: linear-gradient(45deg, #d81b60, #f06292, #d81b60);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 3s ease infinite;
+    }
+
+    @keyframes gradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* 🌸 Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      z-index: 99;
+      display: none;
+      animation: fadeInOverlay 0.3s ease;
+    }
+
+    @keyframes fadeInOverlay { from {opacity:0;} to {opacity:1;} }
+    .overlay.active { display: block; }
+
+    /* 🌸 Popup */
+    .popup {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f8 100%);
+      border-radius: 20px;
+      box-shadow: 0 25px 80px rgba(216, 27, 96, 0.4);
+      padding: 20px;
+      text-align: center;
+      z-index: 100;
+      width: 90%;
+      max-width: 380px;
+      display: none;
+      border: 3px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .popup img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      border: 3px solid #fff;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+    }
+
+    .popup p {
+      font-size: 1rem;
+      color: #d81b60;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .popup button {
+      background: linear-gradient(135deg, #d81b60 0%, #f06292 100%);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(216, 27, 96, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .popup button:hover {
+      background: linear-gradient(135deg, #ad1457 0%, #e91e63 100%);
+      transform: translateY(-2px);
+    }
+
+    /* 🌸 Rơi hình */
+    .falling-letter {
+      position: absolute;
+      top: -80px;
+      width: 40px;
+      animation: fall 8s linear;
+      cursor: pointer;
+      user-select: none;
+      z-index: 2;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0.3; }
+    }
+
+    /* 🌸 Trái tim */
+    .heart {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      animation: explode 2s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes explode {
+      0% { opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.5); opacity: 0; }
+    }
+
+    /* 🌸 Popup tổng kết */
+    #summaryPopup {
+      display: none;
+      max-width: 700px;
+      width: 92%;
+      background: linear-gradient(135deg, #ffffff, #fff0f5);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(216, 27, 96, 0.3);
+      text-align: center;
+      z-index: 100;
+    }
+
+    #summaryPopup h2 {
+      font-size: 1.6rem;
+      color: #c2185b;
+      margin-bottom: 15px;
+    }
+
+    .summary-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      justify-items: center;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+
+    .summary-gallery .item {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 5px 15px rgba(216, 27, 96, 0.15);
+      transition: transform 0.3s ease;
+      width: 100%;
+      max-width: 160px;
+    }
+
+    .summary-gallery .item:hover { transform: translateY(-4px); }
+
+    .summary-gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 182, 193, 0.5);
+    }
+
+    .summary-gallery p {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #ad1457;
+      text-align: center;
+    }
+
+    /* 🌸 Video nền */
+    #bgVideo {
+      position: fixed;
+      top: 0; left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* 🌸 Responsive */
+    @media (max-width: 600px) {
+      .center-message {
+        font-size: 1.2rem;
+        padding: 20px 25px;
+      }
+      .center-message strong { font-size: 1.5rem; }
+      .popup { max-width: 320px; padding: 15px; }
+      .popup p { font-size: 0.95rem; }
+      .summary-gallery { gap: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <video autoplay muted loop id="bgVideo">
+    <source src="./assets/bg.mp4" type="video/mp4">
+  </video>
+
+  <div class="center-message">
+    <strong>❤️ Chúc mừng 20-10 ❤️</strong>
+    <span id="centerText">Mong Uyên luôn rạng rỡ như những bó hoa!</span>
+  </div>
+
+  <div class="popup" id="popup">
+    <img id="popupImage" src="">
+    <p id="popupMessage"></p>
+  </div>
+
+  <div class="popup" id="summaryPopup">
+    <h2>💐 Tổng hợp những lời chúc 💐</h2>
+    <div class="summary-gallery" id="summaryGallery"></div>
+    <button onclick="closeSummary()">Đóng</button>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <audio id="player" src="./assets/a.mp3" preload="auto" loop></audio>
+
+  <script>
+    const messages = [
+      { img: "./assets/u1.jpg", text: "Chúc em luôn vui vẻ, xinh đẹp và ngập tràn yêu thương!" },
+      { img: "./assets/u2.jpg", text: "Mỗi ngày của em đều là một đoá hoa nở rộ." },
+      { img: "./assets/u3.jpg", text: "Cảm ơn em vì đã luôn mạnh mẽ và tuyệt vời như thế!" },
+      { img: "./assets/u4.jpg", text: "Chúc em một ngày 20/10 thật hạnh phúc và trọn vẹn!" },
+      { img: "./assets/u5.jpg", text: "Em là món quà tuyệt vời nhất mà cuộc sống mang lại!" },
+      { img: "./assets/u6.jpg", text: "Ánh mắt em có gì đó khiến cả thế giới này như dịu lại." }
+    ];
+
+    const letterImages = [
+      "./assets/letters.png","./assets/q3.png","./assets/h1.png","./assets/h3.png","./assets/t2.png","./assets/t5.png"
+    ];
+
+    let currentMessageIndex = 0;
+    const popup = document.getElementById("popup");
+    const overlay = document.getElementById("overlay");
+    const popupImage = document.getElementById("popupImage");
+    const popupMessage = document.getElementById("popupMessage");
+
+    function createHeartExplosion(x, y) {
+      const hearts = ['❤️','💖','💗','💓','💕'];
+      for (let i = 0; i < 10; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+        const angle = (Math.PI*2/10)*i;
+        const distance = Math.random()*70+40;
+        heart.style.left = x+'px';
+        heart.style.top = y+'px';
+        heart.style.setProperty('--dx', Math.cos(angle)*distance+'px');
+        heart.style.setProperty('--dy', Math.sin(angle)*distance+'px');
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),2000);
+      }
+    }
+
+    function startMusic() {
+      const player = document.getElementById("player");
+      player.play().catch(()=>{});
+      document.body.removeEventListener("click", startMusic);
+    }
+    document.body.addEventListener("click", startMusic);
+
+    function createFallingLetter() {
+      const letter = document.createElement("img");
+      letter.src = letterImages[Math.floor(Math.random()*letterImages.length)];
+      letter.classList.add("falling-letter");
+      letter.style.left = Math.random()*(window.innerWidth-50)+"px";
+      letter.addEventListener("click",(e)=>{
+        createHeartExplosion(e.clientX,e.clientY);
+        letter.remove();
+        showPopup();
+      });
+      document.body.appendChild(letter);
+      setTimeout(()=>letter.remove(),8000);
+    }
+
+    function showPopup() {
+      const message = messages[currentMessageIndex];
+      popupImage.src = message.img;
+      popupMessage.textContent = message.text;
+      popup.style.display = "block";
+      overlay.classList.add("active");
+      currentMessageIndex++;
+
+      if (currentMessageIndex === messages.length) {
+        setTimeout(() => {
+          popup.style.display = "none";
+          showSummary();
+        }, 1200);
+      }
+    }
+
+    function showSummary() {
+      const summary = document.getElementById("summaryPopup");
+      const gallery = document.getElementById("summaryGallery");
+      gallery.innerHTML = "";
+      messages.forEach(msg=>{
+        const item = document.createElement("div");
+        item.classList.add("item");
+        item.innerHTML = `<img src="${msg.img}" alt="Ảnh"><p>${msg.text}</p>`;
+        gallery.appendChild(item);
+      });
+      summary.style.display = "block";
+      overlay.classList.add("active");
+    }
+
+    function closeSummary() {
+      document.getElementById("summaryPopup").style.display = "none";
+      overlay.classList.remove("active");
+    }
+
+    overlay.addEventListener("click",()=>{
+      popup.style.display="none";
+      overlay.classList.remove("active");
+    });
+
+    setInterval(createFallingLetter, 1000);
+  </script>
+</body>
+</html>
